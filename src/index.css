@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	html,
+	body {
+		@apply h-full w-full font-sans;
+	}
+}
+
+.rcp-saturation {
+	border-radius: 0px;
+}
+
+.rcp-body {
+	background-color: white;
+	padding: 20px 0;
+}
