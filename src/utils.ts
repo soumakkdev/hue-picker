@@ -4,7 +4,8 @@ export function rgbToGlsl(color: IColor) {
 	const x = (color.rgb.r / 255).toFixed(2)
 	const y = (color.rgb.g / 255).toFixed(2)
 	const z = (color.rgb.b / 255).toFixed(2)
-	return { x, y, z }
+	const a = color.rgb.a
+	return { x, y, z, a }
 }
 
 export function rgbToCmyk(color: IColor) {
