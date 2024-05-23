@@ -1,4 +1,6 @@
 import { IColor } from 'react-color-palette'
+import { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 export function rgbToGlsl(color: IColor) {
 	const x = (color.rgb.r / 255).toFixed(2)
@@ -96,4 +98,16 @@ export function rgbToHsl(color: IColor) {
 		s: Math.round(saturation * 100),
 		l: Math.round(lightness * 100),
 	}
+}
+
+export function formatRGB(rgb: IColor['rgb']) {
+	const r = rgb.r.toFixed(0)
+	const g = rgb.g.toFixed(0)
+	const b = rgb.b.toFixed(0)
+	const a = rgb.a.toFixed(0)
+	return `rgb(${r}, ${g}, ${b});`
+}
+
+export function cn(...inputs: ClassValue[]) {
+	return twMerge(clsx(inputs))
 }
