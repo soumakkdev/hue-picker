@@ -1,5 +1,7 @@
-import { ReactNode, createContext } from 'react'
-import { IColor, useColor } from 'react-color-palette'
+import { ReactNode, createContext, useState } from 'react'
+import { initialColor } from '../utils/const'
+import { ColorUtils, IColor } from './ColorUtils'
+import { useColor } from 'react-color-palette'
 
 interface IColorContext {
 	color: IColor
@@ -9,6 +11,7 @@ interface IColorContext {
 export const ColorContext = createContext<IColorContext>({} as IColorContext)
 
 export const ColorProvider = ({ children }: { children: ReactNode }) => {
-	const [color, setColor] = useColor('#2196f3')
+	const [color, setColor] = useState(ColorUtils.convert('hex', initialColor))
+	// const [color, setColor] = useColor(initialColor)
 	return <ColorContext.Provider value={{ color, setColor }}>{children}</ColorContext.Provider>
 }

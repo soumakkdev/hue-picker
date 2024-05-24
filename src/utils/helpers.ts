@@ -1,14 +1,6 @@
-import { IColor } from 'react-color-palette'
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-
-export function rgbToGlsl(color: IColor) {
-	const x = (color.rgb.r / 255).toFixed(2)
-	const y = (color.rgb.g / 255).toFixed(2)
-	const z = (color.rgb.b / 255).toFixed(2)
-	const a = color.rgb.a
-	return { x, y, z, a }
-}
+import { IColor } from '../lib/ColorUtils'
 
 export function rgbToCmyk(color: IColor) {
 	const { rgb } = color
@@ -108,6 +100,17 @@ export function formatRGB(rgb: IColor['rgb']) {
 	return `rgb(${r}, ${g}, ${b});`
 }
 
+export function formatGLSL(color: IColor['glsl']) {
+	const x = color.x.toFixed(3)
+	const y = color.y.toFixed(3)
+	const z = color.z.toFixed(3)
+	return `vec3(${x}, ${y}, ${z});`
+}
+
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs))
+}
+
+export function clamp(value: number, min: number, max: number) {
+	return value < min ? min : value > max ? max : value
 }
