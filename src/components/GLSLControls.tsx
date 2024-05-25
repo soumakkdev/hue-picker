@@ -59,6 +59,14 @@ export default function GLSLControls() {
 					handleInputChange={(value) => handleInputChange('z', value)}
 					handleSliderChange={(value) => handleSliderChange('z', value)}
 				/>
+				<Controls
+					max={1}
+					step={0.001}
+					value={`${color.glsl.w === 0 || color.glsl.w === 1 ? color.glsl.w : color.glsl.w.toFixed(2)}`}
+					title="w"
+					handleInputChange={(value) => handleInputChange('w', value)}
+					handleSliderChange={(value) => handleSliderChange('w', value)}
+				/>
 			</div>
 		</div>
 	)

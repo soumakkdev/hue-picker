@@ -10,10 +10,16 @@ export default function RGBControls() {
 	const { color, setColor } = useContext(ColorContext)
 
 	function handleInputChange(key: string, value: string) {
-		let parsedValue = value ? parseInt(value) : 0
-		if (parsedValue > RGB_MAX) {
-			parsedValue = 255
+		let parsedValue
+		if (key === 'a') {
+			parsedValue = value ? parseFloat(value) : 0
+		} else {
+			parsedValue = value ? parseInt(value) : 0
+			if (parsedValue > RGB_MAX) {
+				parsedValue = 255
+			}
 		}
+
 		setColor(ColorUtils.convert('rgb', Object.assign(color.rgb, { [key]: parsedValue })))
 	}
 
@@ -58,6 +64,14 @@ export default function RGBControls() {
 					title="Blue"
 					handleInputChange={(value) => handleInputChange('b', value)}
 					handleSliderChange={(value) => handleSliderChange('b', value)}
+				/>
+				<Controls
+					max={1}
+					step={0.001}
+					value={`${color.rgb.a === 0 || color.rgb.a === 1 ? color.rgb.a : color.rgb.a.toFixed(2)}`}
+					title="Alpha"
+					handleInputChange={(value) => handleInputChange('a', value)}
+					handleSliderChange={(value) => handleSliderChange('a', value)}
 				/>
 			</div>
 		</div>
