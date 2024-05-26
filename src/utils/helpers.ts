@@ -100,6 +100,14 @@ export function formatRGB(rgb: IColor['rgb']) {
 	return `rgb(${r}, ${g}, ${b});`
 }
 
+export function formatHSV(hsv: IColor['hsv']) {
+	const h = Math.round(hsv.h).toFixed(0)
+	const s = Math.round(hsv.s).toFixed(0)
+	const v = Math.round(hsv.v).toFixed(0)
+	const a = hsv.a.toFixed(0)
+	return `hsv(${h}°, ${s}%, ${v}%);`
+}
+
 export function formatGLSL(color: IColor['glsl']) {
 	const x = color.x.toFixed(3)
 	const y = color.y.toFixed(3)
