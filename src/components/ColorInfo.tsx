@@ -11,7 +11,7 @@ export default function ColorInfo() {
 	const hsl = rgbToHsl(color)
 
 	return (
-		<div className="px-4 space-y-10">
+		<div className="px-4 space-y-5">
 			<div className="">
 				<p className="text-slate-500 font-semibold uppercase text-sm mb-2">Hex</p>
 
