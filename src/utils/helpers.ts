@@ -108,6 +108,14 @@ export function formatHSV(hsv: IColor['hsv']) {
 	return `hsv(${h}°, ${s}%, ${v}%);`
 }
 
+export function formatHSL(hsl: IColor['hsl']) {
+	const h = Math.round(hsl.h).toFixed(0)
+	const s = Math.round(hsl.s).toFixed(0)
+	const l = Math.round(hsl.l).toFixed(0)
+	const a = hsl.a.toFixed(0)
+	return `hsl(${h}°, ${s}%, ${l}%);`
+}
+
 export function formatGLSL(color: IColor['glsl']) {
 	const x = color.x.toFixed(3)
 	const y = color.y.toFixed(3)

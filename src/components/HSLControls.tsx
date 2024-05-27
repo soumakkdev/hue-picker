@@ -5,10 +5,10 @@ import { ColorContext } from '../lib/ColorContext'
 import { ColorUtils } from '../lib/ColorUtils'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion'
 import { HUE_MAX, PCT_MAX } from '../utils/const'
-import { formatHSV } from '../utils/helpers'
+import { formatHSL } from '../utils/helpers'
 import Controls from './Controls'
 
-export default function HSVControls() {
+export default function HSLControls() {
 	const { color, setColor } = useContext(ColorContext)
 
 	function handleInputChange(key: string, value: string) {
@@ -27,17 +27,17 @@ export default function HSVControls() {
 			}
 		}
 
-		setColor(ColorUtils.convert('hsv', Object.assign(color.hsv, { [key]: parsedValue })))
+		setColor(ColorUtils.convert('hsl', Object.assign(color.hsl, { [key]: parsedValue })))
 	}
 
 	function handleSliderChange(key: string, value: number) {
-		setColor(ColorUtils.convert('hsv', Object.assign(color.hsv, { [key]: value })))
+		setColor(ColorUtils.convert('hsl', Object.assign(color.hsl, { [key]: value })))
 	}
 
 	return (
 		<div className="">
 			<Accordion type="single" collapsible>
-				<AccordionItem value="hsv">
+				<AccordionItem value="hsl">
 					<AccordionTrigger
 						className="py-1"
 						trigger={
@@ -46,14 +46,14 @@ export default function HSVControls() {
 							</div>
 						}
 					>
-						<p className="text-slate-500 font-semibold uppercase text-sm">HSV</p>
+						<p className="text-slate-500 font-semibold uppercase text-sm">HSL</p>
 					</AccordionTrigger>
 
 					<AccordionContent className="space-y-4 p-2">
 						<Controls
 							max={HUE_MAX}
 							step={1}
-							value={Math.round(color.hsv.h).toFixed(0)}
+							value={Math.round(color.hsl.h).toFixed(0)}
 							title="Hue"
 							handleInputChange={(value) => handleInputChange('h', value)}
 							handleSliderChange={(value) => handleSliderChange('h', value)}
@@ -61,7 +61,7 @@ export default function HSVControls() {
 						<Controls
 							max={PCT_MAX}
 							step={1}
-							value={Math.round(color.hsv.s).toFixed(0)}
+							value={Math.round(color.hsl.s).toFixed(0)}
 							title="Saturation"
 							handleInputChange={(value) => handleInputChange('s', value)}
 							handleSliderChange={(value) => handleSliderChange('s', value)}
@@ -69,15 +69,15 @@ export default function HSVControls() {
 						<Controls
 							max={PCT_MAX}
 							step={1}
-							value={Math.round(color.hsv.v).toFixed(0)}
-							title="Value"
-							handleInputChange={(value) => handleInputChange('v', value)}
-							handleSliderChange={(value) => handleSliderChange('v', value)}
+							value={Math.round(color.hsl.l).toFixed(0)}
+							title="Lightness"
+							handleInputChange={(value) => handleInputChange('l', value)}
+							handleSliderChange={(value) => handleSliderChange('l', value)}
 						/>
 						<Controls
 							max={1}
 							step={0.001}
-							value={`${color.hsv.a === 0 || color.hsv.a === 1 ? color.hsv.a : color.hsv.a.toFixed(2)}`}
+							value={`${color.hsl.a === 0 || color.hsl.a === 1 ? color.hsl.a : color.hsl.a.toFixed(2)}`}
 							title="Alpha"
 							handleInputChange={(value) => handleInputChange('a', value)}
 							handleSliderChange={(value) => handleSliderChange('a', value)}
@@ -86,7 +86,7 @@ export default function HSVControls() {
 				</AccordionItem>
 			</Accordion>
 
-			<ColorCodeDisplay text={formatHSV(color.hsv)} />
+			<ColorCodeDisplay text={formatHSL(color.hsl)} />
 		</div>
 	)
 }

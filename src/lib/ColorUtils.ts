@@ -5,6 +5,7 @@ export interface IColor {
 	readonly rgb: IColorRgb
 	readonly hsv: IColorHsv
 	readonly glsl: IColorGlsl
+	readonly hsl: IColorHsl
 }
 
 interface IColorGlsl {
@@ -28,12 +29,20 @@ interface IColorHsv {
 	readonly a: number
 }
 
+interface IColorHsl {
+	readonly h: number
+	readonly s: number
+	readonly l: number
+	readonly a: number
+}
+
 class ColorUtilsStatic {
 	public convert<M extends keyof IColor, C extends IColor[M]>(model: M, color: C): IColor {
 		let hex: IColor['hex'] = this.toHex('#000000')
 		let rgb: IColor['rgb'] = this.hex2rgb(hex)
 		let hsv: IColor['hsv'] = this.rgb2hsv(rgb)
 		let glsl: IColor['glsl'] = this.rgbToGlsl(rgb)
+		let hsl: IColor['hsl'] = this.rgbToHsl(rgb)
 
 		if (model === 'hex') {
 			const value = color as IColor['hex']
@@ -48,6 +57,7 @@ class ColorUtilsStatic {
 
 			hsv = this.rgb2hsv(rgb)
 			glsl = this.rgbToGlsl(rgb)
+			hsl = this.rgbToHsl(rgb)
 		} else if (model === 'rgb') {
 			const value = color as IColor['rgb']
 
@@ -55,6 +65,7 @@ class ColorUtilsStatic {
 			hex = this.rgb2hex(rgb)
 			hsv = this.rgb2hsv(rgb)
 			glsl = this.rgbToGlsl(rgb)
+			hsl = this.rgbToHsl(rgb)
 		} else if (model === 'hsv') {
 			const value = color as IColor['hsv']
 
@@ -62,6 +73,7 @@ class ColorUtilsStatic {
 			rgb = this.hsv2rgb(hsv)
 			hex = this.rgb2hex(rgb)
 			glsl = this.rgbToGlsl(rgb)
+			hsl = this.rgbToHsl(rgb)
 		} else if (model === 'glsl') {
 			const value = color as IColor['glsl']
 
@@ -69,9 +81,18 @@ class ColorUtilsStatic {
 			rgb = this.glslToRgb(glsl)
 			hex = this.rgb2hex(rgb)
 			hsv = this.rgb2hsv(rgb)
+			hsl = this.rgbToHsl(rgb)
+		} else if (model === 'hsl') {
+			const value = color as IColor['hsl']
+
+			hsl = value
+			rgb = this.hslToRgb(hsl)
+			hex = this.rgb2hex(rgb)
+			hsv = this.rgb2hsv(rgb)
+			glsl = this.rgbToGlsl(rgb)
 		}
 
-		return { hex, rgb, hsv, glsl }
+		return { hex, rgb, hsv, glsl, hsl }
 	}
 
 	public toHex(value: string): IColor['hex'] {
@@ -181,6 +202,60 @@ class ColorUtilsStatic {
 		const g = Math.round(glsl.y * 255)
 		const b = Math.round(glsl.z * 255)
 		const a = glsl.w // Assuming alpha is already in the correct range
+		return { r, g, b, a }
+	}
+
+	public rgbToHsl({ r, g, b, a }: IColor['rgb']): IColor['hsl'] {
+		r /= 255
+		g /= 255
+		b /= 255
+
+		const max = Math.max(r, g, b)
+		const min = Math.min(r, g, b)
+		let h = 0,
+			s,
+			l = (max + min) / 2
+
+		if (max === min) {
+			h = s = 0 // achromatic
+		} else {
+			const d = max - min
+			s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+
+			switch (max) {
+				case r:
+					h = (g - b) / d + (g < b ? 6 : 0)
+					break
+				case g:
+					h = (b - r) / d + 2
+					break
+				case b:
+					h = (r - g) / d + 4
+					break
+			}
+
+			h /= 6
+		}
+
+		h = Math.round(h * 360)
+		s = Math.round(s * 100)
+		l = Math.round(l * 100)
+
+		return { h, s, l, a }
+	}
+
+	public hslToRgb({ h, s, l, a }: IColor['hsl']): IColor['rgb'] {
+		s /= 100
+		l /= 100
+
+		const k = (n: number) => (n + h / 30) % 12
+		const p = s * Math.min(l, 1 - l)
+		const f = (n: number) => l - p * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)))
+
+		const r = Math.round(f(0) * 255)
+		const g = Math.round(f(8) * 255)
+		const b = Math.round(f(4) * 255)
+
 		return { r, g, b, a }
 	}
 }

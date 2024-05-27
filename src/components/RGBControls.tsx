@@ -33,12 +33,15 @@ export default function RGBControls() {
 		<div className="">
 			<Accordion type="single" collapsible>
 				<AccordionItem value="rgb">
-					<AccordionTrigger className="py-1">
+					<AccordionTrigger
+						className="py-1 justify-start"
+						trigger={
+							<div className="hover:bg-zinc-100 h-8 w-8 rounded-full grid place-content-center">
+								<SlidersHorizontal className="h-4 w-4" />
+							</div>
+						}
+					>
 						<p className="text-slate-500 font-semibold uppercase text-sm">RGB</p>
-
-						<button className="hover:bg-zinc-100 h-8 w-8 rounded-full grid place-content-center">
-							<SlidersHorizontal className="h-4 w-4" />
-						</button>
 					</AccordionTrigger>
 
 					<AccordionContent className="space-y-4 p-2">
