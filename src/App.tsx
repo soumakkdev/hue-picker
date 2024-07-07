@@ -10,7 +10,11 @@ function App() {
 	const { color, setColor } = useContext(ColorContext)
 	return (
 		<div className="max-w-5xl mx-auto p-5">
-			<h1 className="text-center text-4xl mb-8 font-medium">Hue Picker</h1>
+			<div className="flex justify-center">
+				<h1 className="text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500 inline-block mx-auto text-4xl mt-4 mb-10 font-medium">
+					Hue Picker
+				</h1>
+			</div>
 			<div className="grid grid-cols-2 gap-8">
 				<div className="">
 					<ColorPicker height={400} color={color} onChange={(color) => setColor(ColorUtils.convert('rgb', color.rgb))} hideInput />
